@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		">
+    <bean id="grade" class="com.syudy.beans.Grade">
+        <property name="name" value="三年级"/>
+        <property name="number" value="2"/>
+    </bean>
+
+    <bean id="student" class="com.syudy.beans.Student">
+        <!--无参构造创建对象-->
+        <!--<property name="sid" value="001"></property>
+        <property name="sname" value="小明"></property>
+        <property name="sage" value="12"></property>
+        <property name="ssex" value="男"></property>-->
+        <!--有参构造创建对象-->
+        <constructor-arg index="0" value="002"/>
+        <constructor-arg index="1" value="呵呵"/>
+        <constructor-arg index="2" value="12"/>
+        <constructor-arg index="3" value="女"/>
+        <property name="list">
+            <list>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="name1" value="徐凤年"></entry>
+                <entry key="name2" value="呵呵"></entry>
+                <entry key="name3" value="洛阳"></entry>
+            </map>
+        </property>
+        <property name="grade" ref="grade"/>
+        <property name="properties">
+            <props>
+                <prop key="username">root</prop>
+                <prop key="password">123456</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--配置文件中写上所有需要生成类的bean标签-->
+   <bean id="studao" class="com.syudy.daoimp.StudentDaoImp"/>
+    <!--name填写类中set的属性名称，ref填写其对应的bean标签id-->
+    <bean id="stuservice" class="com.syudy.serviceimp.StudentServiceImp">
+        <property name="studentDaoImp" ref="studao"/>
+    </bean>
+    <!--scope默认值为singleton（单例）,init-lazy默认值为false（立即加载）-->
+    <bean id="controller" class="com.syudy.controller.StuController">
+        <property name="studentServiceImp" ref="stuservice"/>
+    </bean>
+</beans>
